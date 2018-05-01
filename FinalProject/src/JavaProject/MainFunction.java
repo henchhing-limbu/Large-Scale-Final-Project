@@ -1,5 +1,7 @@
 package JavaProject;
 
+// import java.util.Collections;
+
 public class MainFunction {
 	public static void main(String[] args) {
 		// check for address
@@ -13,11 +15,35 @@ public class MainFunction {
 		
 		// check for Individual
 		Individual person = new Individual();
-		Address personAddr = new Address();
+		// Address personAddr = new Address();
 		person.fName = "Henchhing";
 		person.lName = "Limbu";
 		person.phoneNum = "202-849-1017";
 		person.editAddr(addr);
-		System.out.println(person);
+		// System.out.println(person);
+		
+		// check for AddressBook
+		AddressBook addrBook = new AddressBook();
+		addrBook.insert(person);
+		addrBook.insert(person);
+		System.out.println(addrBook);
+		
+		// checking delete of AddressBook
+		Individual person2 = new Individual();
+		person2.fName = "Bijesh";
+		person2.lName = "Singh";
+		addrBook.insert(person2);
+		// addrBook.delete(person);
+		// System.out.println(addrBook.entries.size());
+		Individual person3 = new Individual();
+		person3.fName = "Akash";
+		person3.lName = "Singh";
+		addrBook.insert(person3);
+		
+		// addrBook.insert(person);
+		addrBook.sortName();
+		System.out.println(addrBook.entries.size());
+		System.out.println((addrBook.entries.get(1).fName));
+		
 	}
 }

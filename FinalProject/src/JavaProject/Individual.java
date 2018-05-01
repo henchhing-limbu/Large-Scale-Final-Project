@@ -1,6 +1,6 @@
 package JavaProject;
 
-public class Individual {
+public class Individual implements Comparable<Individual> {
 	String fName;
 	String lName;
 	Address addr;
@@ -39,5 +39,15 @@ public class Individual {
 	public String toString() {
 		return String.format("First Name     : " + fName + "\nLast name      : " + lName +
 				"\nPhone Number   : " + phoneNum + "\nAddress Information \n");
+	}
+	@Override
+	public int compareTo(Individual person) {
+		// TODO: Fix the lowercase and uppercase prbolem
+		if ((this.lName).equals(person.lName)) {
+			return ((this.fName).compareTo(person.fName));
+		}
+		else {
+			return ((this.lName).compareTo(person.lName));
+		}
 	}
 }
