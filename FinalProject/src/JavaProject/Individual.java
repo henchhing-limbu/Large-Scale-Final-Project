@@ -1,5 +1,7 @@
 package JavaProject;
 
+import java.util.Comparator;
+
 public class Individual implements Comparable<Individual> {
 	String fName;
 	String lName;
@@ -43,6 +45,7 @@ public class Individual implements Comparable<Individual> {
 	@Override
 	public int compareTo(Individual person) {
 		// TODO: Fix the lowercase and uppercase prbolem
+		int x;
 		if ((this.lName).equals(person.lName)) {
 			return ((this.fName).compareTo(person.fName));
 		}
@@ -50,4 +53,14 @@ public class Individual implements Comparable<Individual> {
 			return ((this.lName).compareTo(person.lName));
 		}
 	}
+	/*
+	public int compareZipCode(Individual person) {
+		if (this.addr.zipCode == person.addr.zipCode) {
+			if (this.lName.equals(person.lName)) {
+				
+			}
+		}
+		return 0;
+	}
+	*/
 }

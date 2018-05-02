@@ -1,6 +1,7 @@
 package JavaProject;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,11 +64,31 @@ public class AddressBook {
 
 	// sort by name
 	public void sortName() {
-		System.out.println("Entered sort.\n");
+		// System.out.println("Entered sort.\n");
 		Collections.sort(entries);;
 	}
+	
+	Comparator<Individual> com = new Comparator<Individual>() {
+		public int compare(Individual person1, Individual person2) {
+			if (person1.addr.zipCode == person2.addr.zipCode) {
+				if (person1.lName.equals(person2.lName)) {
+					if (person1.fName.equals(person2.fName)) {
+						return 0;
+					}
+					else
+						return person1.fName.compareTo(person2.fName);
+				}
+				else
+					return person1.lName.compareTo(person2.lName);
+			}
+			else {
+				if (person1.addr.zipCode < person2.addr.zipCode) return -1; 
+				else return 1;
+			}
+		}
+	};
 	// sort by zip code
 	public void sortCode() {
-		
+		Collections.sort(entries, com);
 	}
 }

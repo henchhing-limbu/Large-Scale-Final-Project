@@ -32,18 +32,24 @@ public class MainFunction {
 		Individual person2 = new Individual();
 		person2.fName = "Bijesh";
 		person2.lName = "Singh";
+		person2.addr.zipCode = 20060;
 		addrBook.insert(person2);
 		// addrBook.delete(person);
 		// System.out.println(addrBook.entries.size());
 		Individual person3 = new Individual();
 		person3.fName = "Akash";
 		person3.lName = "Singh";
+		person3.addr.zipCode = 20054;
 		addrBook.insert(person3);
 		
 		// addrBook.insert(person);
 		addrBook.sortName();
 		System.out.println(addrBook.entries.size());
 		System.out.println((addrBook.entries.get(1).fName));
+		
+		addrBook.sortCode();
+		System.out.println(addrBook.entries.size());
+		System.out.println((addrBook.entries.get(0).fName));
 		
 	}
 }
