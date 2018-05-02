@@ -7,12 +7,6 @@ public class Individual implements Comparable<Individual> {
 	String lName;
 	Address addr;
 	String phoneNum;
-	void editFName(String name) {
-		fName = name;
-	}
-	void editLName(String name) {
-		lName = name;
-	}
 	void editAddr(Address address) {
 		this.copyValue(address);
 	}
@@ -46,21 +40,28 @@ public class Individual implements Comparable<Individual> {
 	public int compareTo(Individual person) {
 		// TODO: Fix the lowercase and uppercase prbolem
 		int x;
-		if ((this.lName).equals(person.lName)) {
-			return ((this.fName).compareTo(person.fName));
+		if ((this.lName.toLowerCase()).equals(person.lName.toLowerCase())) {
+			return ((this.fName.toLowerCase()).compareTo(person.fName.toLowerCase()));
 		}
 		else {
-			return ((this.lName).compareTo(person.lName));
+			return ((this.lName.toLowerCase()).compareTo(person.lName.toLowerCase()));
 		}
 	}
-	/*
-	public int compareZipCode(Individual person) {
-		if (this.addr.zipCode == person.addr.zipCode) {
-			if (this.lName.equals(person.lName)) {
-				
+	public boolean equals(Individual obj) {
+		// TODO Auto-generated method stub
+		if (this.fName.toLowerCase().equals(obj.fName.toLowerCase())) {
+			if (this.lName.toLowerCase().equals(obj.lName.toLowerCase())) {
+				if (this.phoneNum.equals(obj.phoneNum)) {
+					if (this.addr.equals(obj.addr)) {
+						return true;
+					}
+				}
 			}
 		}
-		return 0;
+		return false;
 	}
-	*/
+	public void edit() {
+		
+	}
+	
 }

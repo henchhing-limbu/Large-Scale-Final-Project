@@ -50,6 +50,7 @@ public class MainFunction {
 		addrBook.sortCode();
 		System.out.println(addrBook.entries.size());
 		System.out.println((addrBook.entries.get(0).fName));
+		addrBook.edit();
 		
 	}
 }

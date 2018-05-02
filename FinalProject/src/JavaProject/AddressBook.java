@@ -1,4 +1,5 @@
 package JavaProject;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,79 +8,74 @@ import java.util.List;
 
 public class AddressBook {
 	List<Individual> entries = new ArrayList<Individual>();
+	
 	/*
-	void create() {
-		Individual person = new Individual();
-		entries.add(person);
-	}
-	*/
-	// adding a new individual to the address book
+	 *  Adds a new individual object to the address book list
+	 *  If individual already exists in the book, won't add object to the book
+	 */
 	public void insert(Individual person) {
 		Iterator<Individual> iter = entries.iterator();
 		while (iter.hasNext()) {
 			Individual x = iter.next();
-			if (x.fName.equals(person.fName)) {
-				if (x.lName.equals(person.lName)) {
+			if (x.equals(person)) {
 					System.out.println("Individual already exists in the book.\n");
 					return;
-				}
 			}
 		}
 		entries.add(person);
 	}
-	// deleting an individual from the address book
+	/*
+	 * deletes an individual from the address book
+	 * does nothing if the individual doesn't exist in the book
+	 */
 	public void delete(Individual person) {
 		Iterator<Individual> iter = entries.iterator();
 		while (iter.hasNext()) {
 			Individual x = iter.next();
-			if (x.fName.equals(person.fName)) {
-				if (x.lName.equals(person.lName)) {
+			if (x.equals(person)) {
 					iter.remove();
-				}
+					return;
 			}
 		}
-	}
-	// get entry
-	// TODO: Fix me
-	public Individual get(String fName, String lName) {
-		Individual person = new Individual();
-		for (Individual x: entries) {
-			if (x.fName.equals(fName)) {
-				if (x.lName.equals(lName)) {
-					person.fName = fName;
-					person.lName = lName;
-					person.editAddr(x.addr);
-					person.phoneNum = x.phoneNum;
-					return person;
-				}
-			}
-		}
-		return null;
 	}
 	// edits entry
 	// TODO: Fix me
 	public void edit() {
-		
+		Scanner read = new Scanner(System.in);
+		System.out.println("Editing the Address Book.\n");
+		System.out.println("First name of the person: ");
+		String fName = read.nextLine();
+		System.out.println("\nLast name of the person: ");
+		String lName = read.nextLine();
 	}
 
-	// sort by name
+	/*
+	 *  sorts the entries in the book by last name of the individual
+	 *  if same last name, first name is used to sort the entries
+	 */
 	public void sortName() {
 		// System.out.println("Entered sort.\n");
 		Collections.sort(entries);;
 	}
 	
+	/*
+	 * comparator class with comparing method
+	 * compare method compares two Individual objects based on their zip code
+	 * if same zip code, objects are compared based on their last names
+	 * if same last name, objects are compared based on their first names
+	 */
 	Comparator<Individual> com = new Comparator<Individual>() {
 		public int compare(Individual person1, Individual person2) {
 			if (person1.addr.zipCode == person2.addr.zipCode) {
-				if (person1.lName.equals(person2.lName)) {
-					if (person1.fName.equals(person2.fName)) {
+				if (person1.lName.toLowerCase().equals(person2.lName.toLowerCase())) {
+					if (person1.fName.toLowerCase().equals(person2.fName.toLowerCase())) {
 						return 0;
 					}
 					else
-						return person1.fName.compareTo(person2.fName);
+						return person1.fName.toLowerCase().compareTo(person2.fName.toLowerCase());
 				}
 				else
-					return person1.lName.compareTo(person2.lName);
+					return person1.lName.toLowerCase().compareTo(person2.lName.toLowerCase());
 			}
 			else {
 				if (person1.addr.zipCode < person2.addr.zipCode) return -1; 
@@ -87,7 +83,10 @@ public class AddressBook {
 			}
 		}
 	};
-	// sort by zip code
+	/*
+	 *  sorts Individual objects based on their zip codes
+	 *  calls Collections.sort(Indivual obj, Comparator<Individual> com) to sort the entires of the book
+	 */
 	public void sortCode() {
 		Collections.sort(entries, com);
 	}

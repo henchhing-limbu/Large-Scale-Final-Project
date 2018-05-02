@@ -38,4 +38,18 @@ public class Address {
 		return String.format("City     : " + city + "\nState    : " + state 
 				+ "\nStreet   : " + street + "\nZip Code : " + zipCode);
 	}
+	public boolean equals(Address addr) {
+		if (this.streetNum == addr.streetNum) {
+			if (this.city.equals(addr.city)) {
+				if (this.street.equals(addr.street)) {
+					if (this.state.equals(addr.state)) {
+						if (this.zipCode == addr.zipCode) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
