@@ -41,6 +41,7 @@ public class MainFunction {
 		person3.lName = "Singh";
 		person3.addr.zipCode = 20054;
 		addrBook.insert(person3);
+		System.out.println(addrBook);
 		
 		// addrBook.insert(person);
 		addrBook.sortName();
@@ -51,6 +52,7 @@ public class MainFunction {
 		System.out.println(addrBook.entries.size());
 		System.out.println((addrBook.entries.get(0).fName));
 		addrBook.edit();
-		
+		System.out.println(person.phoneNum);
+		System.out.println(person.addr.streetNum);
 	}
 }

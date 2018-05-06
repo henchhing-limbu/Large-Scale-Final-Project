@@ -47,8 +47,96 @@ public class AddressBook {
 		String fName = read.nextLine();
 		System.out.println("\nLast name of the person: ");
 		String lName = read.nextLine();
+		Iterator<Individual> iter = entries.iterator();
+		while (iter.hasNext()) {
+			Individual x = iter.next();
+			if (x.fName.equals(fName)) {
+				if (x.lName.equals(lName)) {
+					System.out.println("Found the individual.\n");
+					editHelper(x);
+				}
+				else {
+					System.out.println(fName + " " + lName + " Individual does not exist in the address book.");
+				}
+			}
+		}
+		read.close();
 	}
-
+	
+	/*
+	 * helper function for the edit method
+	 * depending on the user input, edits the attributes of the individual
+	 * won't let the user edit first name and last name
+	 */
+	public void editHelper(Individual x) {
+		Scanner read = new Scanner(System.in);
+		System.out.println("What do you want to edit? \n");
+		String userInput = read.nextLine();
+		switch (userInput) {
+			case "first name":
+				System.out.println("You can't change first name.\n");
+				System.out.println("Try again.\n");
+				editHelper(x);
+				break;
+			case "last name":
+				System.out.println("You can't change last name.\n");
+				System.out.println("Try again.\n");
+				editHelper(x);
+				break;
+			case "phone number":
+				System.out.println("Can you pass the new phone number?\n");
+				String phoneNum = read.nextLine();
+				x.phoneNum = phoneNum;
+				break;
+			case "address":
+				editAddress(x);
+				break;
+		}
+		read.close();
+	}
+	
+	/*
+	 * a helper functions to edit the address
+	 * prompts the user for correct input as long as he doesn't pass correct input
+	 */
+	public void editAddress(Individual x) {
+		Scanner read = new Scanner(System.in);
+		System.out.println("What part of address you want to change?\n");
+		String editAddrPart = read.nextLine();
+		switch (editAddrPart) {
+			case "street number":
+				System.out.println("Can you pass the new street number?\n");
+				int streetNum = read.nextInt();
+				x.addr.editStreetNum(streetNum);
+				break;
+			case "city":
+				System.out.println("Can you pass the new city name?\n");
+				String city = read.nextLine();
+				x.addr.editCity(city);
+				break;
+			case "street":
+				System.out.println("Can you pass the new street name?\n");
+				String street = read.nextLine();
+				x.addr.editStreet(street);
+				break;
+			case "state":
+				System.out.println("Can you pass the new state name?\n");
+				String state = read.nextLine();
+				x.addr.editState(state);
+				break;
+			case "zip code":
+				System.out.println("Can you pass the new street number?\n");
+				int zipCode = read.nextInt();
+				x.addr.editZipCode(zipCode);
+				break;
+			default:
+				System.out.println("Your response didn't match to any of the cases.\n");
+				System.out.println("The valid responses are:\nstreet number\ncity\nstreet\nstate\nzip code\n");
+				editAddress(x);
+				break;
+		}
+		read.close();
+	}
 	/*
 	 *  sorts the entries in the book by last name of the individual
 	 *  if same last name, first name is used to sort the entries
@@ -89,5 +177,15 @@ public class AddressBook {
 	 */
 	public void sortCode() {
 		Collections.sort(entries, com);
+	}
+	@Override
+	public String toString() {
+		String mailLabel = null;
+		for (Individual x: entries) {
+			mailLabel += x.fName + " " + x.lName + "\n" + x.addr.streetNum + " " + x.addr.street +
+					"\n" + x.addr.city + ", " + x.addr.state + ", " + x.addr.zipCode + "\n" +
+					x.phoneNum + "\n\n";
+		}
+		return String.format(mailLabel);
 	}
 }
