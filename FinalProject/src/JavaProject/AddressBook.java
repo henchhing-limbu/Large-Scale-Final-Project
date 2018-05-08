@@ -1,20 +1,21 @@
 package JavaProject;
 import java.util.Scanner;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public class AddressBook {
-	List<Individual> entries = new ArrayList<Individual>();
-	
-	/*
-	 *  Adds a new individual object to the address book list
+public class AddressBook implements Serializable{
+	private List<Individual> entries = new ArrayList<Individual>();
+	/**
+	 *  This method adds a new individual object to the address book list
 	 *  If individual already exists in the book, won't add object to the book
+	 *  @param person This is the parameter to the method.
 	 */
 	public void insert(Individual person) {
-		Iterator<Individual> iter = entries.iterator();
+		Iterator<Individual> iter = getEntries().iterator();
 		while (iter.hasNext()) {
 			Individual x = iter.next();
 			if (x.equals(person)) {
@@ -22,14 +23,15 @@ public class AddressBook {
 					return;
 			}
 		}
-		entries.add(person);
+		getEntries().add(person);
 	}
-	/*
-	 * deletes an individual from the address book
+	/**
+	 * This method deletes an individual from the address book
 	 * does nothing if the individual doesn't exist in the book
+	 * @param person This is the parameter to the method.
 	 */
 	public void delete(Individual person) {
-		Iterator<Individual> iter = entries.iterator();
+		Iterator<Individual> iter = getEntries().iterator();
 		while (iter.hasNext()) {
 			Individual x = iter.next();
 			if (x.equals(person)) {
@@ -38,8 +40,10 @@ public class AddressBook {
 			}
 		}
 	}
-	// edits entry
-	// TODO: Fix me
+	
+	/**
+	 * This method edits the address book
+	 */
 	public void edit() {
 		Scanner read = new Scanner(System.in);
 		System.out.println("Editing the Address Book.\n");
@@ -47,11 +51,11 @@ public class AddressBook {
 		String fName = read.nextLine();
 		System.out.println("\nLast name of the person: ");
 		String lName = read.nextLine();
-		Iterator<Individual> iter = entries.iterator();
+		Iterator<Individual> iter = getEntries().iterator();
 		while (iter.hasNext()) {
 			Individual x = iter.next();
-			if (x.fName.equals(fName)) {
-				if (x.lName.equals(lName)) {
+			if (x.getfName().equals(fName)) {
+				if (x.getlName().equals(lName)) {
 					System.out.println("Found the individual.\n");
 					editHelper(x);
 				}
@@ -63,10 +67,11 @@ public class AddressBook {
 		read.close();
 	}
 	
-	/*
-	 * helper function for the edit method
-	 * depending on the user input, edits the attributes of the individual
-	 * won't let the user edit first name and last name
+	/**
+	 * This is the helper method for the edit method.
+	 * depending on the user input, edits the attributes of the individual.
+	 * won't let the user edit first name and last name.
+	 * @param x This is the parameter of the method.
 	 */
 	public void editHelper(Individual x) {
 		Scanner read = new Scanner(System.in);
@@ -86,7 +91,7 @@ public class AddressBook {
 			case "phone number":
 				System.out.println("Can you pass the new phone number?\n");
 				String phoneNum = read.nextLine();
-				x.phoneNum = phoneNum;
+				x.setPhoneNum(phoneNum);
 				break;
 			case "address":
 				editAddress(x);
@@ -95,9 +100,10 @@ public class AddressBook {
 		read.close();
 	}
 	
-	/*
-	 * a helper functions to edit the address
+	/**
+	 * This is a helper method to edit the address
 	 * prompts the user for correct input as long as he doesn't pass correct input
+	 * @param x This is the parameter of the method.
 	 */
 	public void editAddress(Individual x) {
 		Scanner read = new Scanner(System.in);
@@ -107,27 +113,27 @@ public class AddressBook {
 			case "street number":
 				System.out.println("Can you pass the new street number?\n");
 				int streetNum = read.nextInt();
-				x.addr.editStreetNum(streetNum);
+				x.getAddr().editStreetNum(streetNum);
 				break;
 			case "city":
 				System.out.println("Can you pass the new city name?\n");
 				String city = read.nextLine();
-				x.addr.editCity(city);
+				x.getAddr().editCity(city);
 				break;
 			case "street":
 				System.out.println("Can you pass the new street name?\n");
 				String street = read.nextLine();
-				x.addr.editStreet(street);
+				x.getAddr().editStreet(street);
 				break;
 			case "state":
 				System.out.println("Can you pass the new state name?\n");
 				String state = read.nextLine();
-				x.addr.editState(state);
+				x.getAddr().editState(state);
 				break;
 			case "zip code":
 				System.out.println("Can you pass the new street number?\n");
 				int zipCode = read.nextInt();
-				x.addr.editZipCode(zipCode);
+				x.getAddr().editZipCode(zipCode);
 				break;
 			default:
 				System.out.println("Your response didn't match to any of the cases.\n");
@@ -137,55 +143,72 @@ public class AddressBook {
 		}
 		read.close();
 	}
-	/*
-	 *  sorts the entries in the book by last name of the individual
+	/**
+	 *  This method sorts the entries in the book by last name of the individual
 	 *  if same last name, first name is used to sort the entries
 	 */
 	public void sortName() {
 		// System.out.println("Entered sort.\n");
-		Collections.sort(entries);;
+		Collections.sort(getEntries());;
 	}
 	
-	/*
-	 * comparator class with comparing method
-	 * compare method compares two Individual objects based on their zip code
-	 * if same zip code, objects are compared based on their last names
-	 * if same last name, objects are compared based on their first names
+	/**
+	 * comparator class
 	 */
-	Comparator<Individual> com = new Comparator<Individual>() {
+	transient Comparator<Individual> com = new Comparator<Individual>() {
+		/**
+		 * This method compares two Individual objects based on their zip code
+		 * if same zip code, objects are compared based on their last names
+		 * if same last name, objects are compared based on their first names
+		 * @param person1 This is the first individual passed as parameter to the method.
+		 * @param person2 This is the second individual passed as parameter to the method.
+		 * @return int This is the returned int value by the method.
+		 */
+
 		public int compare(Individual person1, Individual person2) {
-			if (person1.addr.zipCode == person2.addr.zipCode) {
-				if (person1.lName.toLowerCase().equals(person2.lName.toLowerCase())) {
-					if (person1.fName.toLowerCase().equals(person2.fName.toLowerCase())) {
+			if (person1.getAddr().getZipCode() == person2.getAddr().getZipCode()) {
+				if (person1.getlName().toLowerCase().equals(person2.getlName().toLowerCase())) {
+					if (person1.getfName().toLowerCase().equals(person2.getfName().toLowerCase())) {
 						return 0;
 					}
 					else
-						return person1.fName.toLowerCase().compareTo(person2.fName.toLowerCase());
+						return person1.getfName().toLowerCase().compareTo(person2.getfName().toLowerCase());
 				}
 				else
-					return person1.lName.toLowerCase().compareTo(person2.lName.toLowerCase());
+					return person1.getlName().toLowerCase().compareTo(person2.getlName().toLowerCase());
 			}
 			else {
-				if (person1.addr.zipCode < person2.addr.zipCode) return -1; 
+				if (person1.getAddr().getZipCode() < person2.getAddr().getZipCode()) return -1; 
 				else return 1;
 			}
 		}
 	};
-	/*
-	 *  sorts Individual objects based on their zip codes
-	 *  calls Collections.sort(Indivual obj, Comparator<Individual> com) to sort the entires of the book
+	/**
+	 * This method sorts Individual objects based on their zip codes
+	 * calls Collections.sort(Indivual obj, Comparator<Individual> com) to sort the entires of the book
 	 */
 	public void sortCode() {
-		Collections.sort(entries, com);
+		Collections.sort(getEntries(), com);
 	}
+	
+	/**
+	 * This method overrides toString() method and returns the address book information in mailing label format.
+	 */
 	@Override
 	public String toString() {
 		String mailLabel = null;
-		for (Individual x: entries) {
-			mailLabel += x.fName + " " + x.lName + "\n" + x.addr.streetNum + " " + x.addr.street +
-					"\n" + x.addr.city + ", " + x.addr.state + ", " + x.addr.zipCode + "\n" +
-					x.phoneNum + "\n\n";
+		for (Individual x: getEntries()) {
+			mailLabel += x.getfName() + " " + x.getlName() + "\n" + x.getAddr().getStreetNum() + " " + x.getAddr().getStreet() +
+					"\n" + x.getAddr().getCity() + ", " + x.getAddr().getState() + ", " + x.getAddr().getZipCode() + "\n" +
+					x.getPhoneNum() + "\n\n";
 		}
 		return String.format(mailLabel);
+	}
+	/**
+	 * This is the get method of entries.
+	 * @return List<Individual> This is the returned list of individuals.
+	 */
+	public List<Individual> getEntries() {
+		return entries;
 	}
 }

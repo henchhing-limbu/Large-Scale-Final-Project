@@ -6,22 +6,23 @@ public class MainFunction {
 	public static void main(String[] args) {
 		// check for address
 		Address addr = new Address();
-		addr.city = "Washington";
-		addr.streetNum = 1923;
-		addr.street = "North Capitol St NW";
-		addr.state = "DC";
-		addr.zipCode = 20059;
+		addr.setCity("Washington");
+		addr.setStreetNum(1923);
+		addr.setStreet("North Capitol St NW");
+		addr.setState("DC");
+		addr.setZipCode(20059);
 		// System.out.println(addr);
 		
 		// check for Individual
 		Individual person = new Individual();
 		// Address personAddr = new Address();
-		person.fName = "Henchhing";
-		person.lName = "Limbu";
-		person.phoneNum = "202-849-1017";
+		person.setfName("Henchhing");
+		person.setlName("Limbu");
+		person.setPhoneNum("202-849-1017");
 		person.editAddr(addr);
 		// System.out.println(person);
 		
+		/*
 		// check for AddressBook
 		AddressBook addrBook = new AddressBook();
 		addrBook.insert(person);
@@ -54,5 +55,20 @@ public class MainFunction {
 		addrBook.edit();
 		System.out.println(person.phoneNum);
 		System.out.println(person.addr.streetNum);
+		*/
+		AddressBookManager addrbookmng = new AddressBookManager();
+		addrbookmng.menuOption();
+		// addrbookmng.create();
+		// addrbookmng.getAddrBook().insert(person);
+		// System.out.println(addrbookmng.bookName);
+		// addrbookmng.addrBook = addrbookmng.open("henchhing");
+		// System.out.println(addrbookmng.getAddrBook().getEntries().get(0).getAddr().getCity());
+		// addrbookmng.quit();
+		// Address newAddr = new Address();
+		// newAddr.setCity("Dallas");
+		// addrbookmng.getAddrBook().getEntries().get(0).editAddr(newAddr);
+		// System.out.println(addrbookmng.getAddrBook().getEntries().get(0).getAddr().getCity());
+		// addrbookmng.saveAs();
+		// addrbookmng.save();		
 	}
 }
