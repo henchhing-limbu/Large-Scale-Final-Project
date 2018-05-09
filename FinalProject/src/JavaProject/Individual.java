@@ -95,7 +95,6 @@ public class Individual implements Comparable<Individual>, Serializable {
 		addr.setCity(address.getCity());
 		addr.setState(address.getState());
 		addr.setStreet(address.getStreet());
-		addr.setStreetNum(address.getStreetNum());
 		addr.setZipCode(address.getZipCode());
 	}
 	
@@ -130,6 +129,7 @@ public class Individual implements Comparable<Individual>, Serializable {
 	 */
 	@Override
 	public int compareTo(Individual person) {
+		System.out.println("Entered compareTo");
 		if ((this.lName.toLowerCase()).equals(person.lName.toLowerCase())) {
 			return ((this.fName.toLowerCase()).compareTo(person.fName.toLowerCase()));
 		}
@@ -145,15 +145,10 @@ public class Individual implements Comparable<Individual>, Serializable {
 	 */
 	public boolean equals(Individual obj) {
 		// TODO Auto-generated method stub
-		if (this.fName.toLowerCase().equals(obj.fName.toLowerCase())) {
-			if (this.lName.toLowerCase().equals(obj.lName.toLowerCase())) {
-				if (this.phoneNum.equals(obj.phoneNum)) {
-					if (this.addr.equals(obj.addr)) {
-						return true;
-					}
-				}
-			}
-		}
+		if ((this.fName.toLowerCase().equals(obj.fName.toLowerCase())) 
+			&& (this.lName.toLowerCase().equals(obj.lName.toLowerCase()))
+			&& (this.phoneNum.equals(obj.phoneNum)))
+				return true;
 		return false;
 	}
 }

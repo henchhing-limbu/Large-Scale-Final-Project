@@ -7,8 +7,7 @@ public class MainFunction {
 		// check for address
 		Address addr = new Address();
 		addr.setCity("Washington");
-		addr.setStreetNum(1923);
-		addr.setStreet("North Capitol St NW");
+		addr.setStreet("1923 North Capitol St NW");
 		addr.setState("DC");
 		addr.setZipCode(20059);
 		// System.out.println(addr);

@@ -14,57 +14,138 @@ public class AddressBook implements Serializable{
 	 *  If individual already exists in the book, won't add object to the book
 	 *  @param person This is the parameter to the method.
 	 */
-	public void insert(Individual person) {
-		Iterator<Individual> iter = getEntries().iterator();
-		while (iter.hasNext()) {
-			Individual x = iter.next();
-			if (x.equals(person)) {
-					System.out.println("Individual already exists in the book.\n");
-					return;
-			}
-		}
-		getEntries().add(person);
+	public void insert() {
+		Scanner scanner = new Scanner(System.in);
+		Individual person = new Individual();
+		System.out.println("First name of the person: ");
+		person.setfName(scanner.nextLine());
+		System.out.println("Last name of the person: ");
+		person.setlName(scanner.nextLine());
+		System.out.println("Phone number of the person: ");
+		person.setPhoneNum(scanner.nextLine());
+		System.out.println("City name: ");
+		person.getAddr().setCity(scanner.nextLine());
+		System.out.println("State name: ");
+		person.getAddr().setState(scanner.nextLine());
+		System.out.println("Street name: ");
+		person.getAddr().setStreet(scanner.nextLine());
+		System.out.println("Zip Code: ");
+		person.getAddr().setZipCode(scanner.nextInt());
+		this.getEntries().add(person);
+		// scanner.close();
 	}
 	/**
 	 * This method deletes an individual from the address book
 	 * does nothing if the individual doesn't exist in the book
 	 * @param person This is the parameter to the method.
 	 */
+	// TODO: Fix me
 	public void delete(Individual person) {
-		Iterator<Individual> iter = getEntries().iterator();
-		while (iter.hasNext()) {
-			Individual x = iter.next();
+		for (Individual x : this.entries) {
+		// Iterator<Individual> iter = getEntries().iterator();
+		// while (iter.hasNext()) {
+			// Individual x = iter.next();
+			// System.out.println(x.getfName());
+			// System.out.println(person.getfName());
+			/*
+			if (x.getfName().equals(person.getfName())) {
+				System.out.println("First name similar.");
+				if (x.getlName().equals(person.getlName())) {
+					if (x.getPhoneNum().equals(person.getPhoneNum())) {
+						System.out.println("Found the individual.");
+						// iter.remove();
+						return;
+					}
+				}
+			*/
 			if (x.equals(person)) {
-					iter.remove();
-					return;
+				entries.remove(x);
+				System.out.println("Entry deleted");
+				return;
 			}
 		}
+		System.out.println("This individual does not exist in the address book.");
 	}
 	
 	/**
 	 * This method edits the address book
 	 */
 	public void edit() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("EDIT MENU OPTIONS.");
+		System.out.println("1 ~ INSERT INDIVIDUAL");
+		System.out.println("2 ~ SORT INDIVIDUALS BY NAME");
+		System.out.println("3 ~ SORT INDIVIDUALS BY ZIP CODE");
+		System.out.println("4 ~ EDIT AN INDIVIDUAL ENTRY");
+		System.out.println("5 ~ DELETE AN INDIVIDUAL ENTRY");
+		System.out.println("6 ~ DISPLAY ENTRIES");
+		int userInput = scanner.nextInt();
+		try {
+			switch (userInput) {
+				case 1:
+					this.insert();
+					break;
+				case 2:
+					this.sortName();
+					break;
+				case 3:
+					this.sortCode();
+					break;
+				case 4:
+					this.editPerson();
+					break;
+				case 5:
+					System.out.println("INDIVIDUAL'S INFORMATION: ");
+					Individual person = new Individual();
+					System.out.println("First name: ");
+					person.setfName(scanner.nextLine());
+					scanner.nextLine();
+					System.out.println("Last name: ");
+					person.setlName(scanner.nextLine());
+					System.out.println("Phone number: ");
+					person.setPhoneNum(scanner.nextLine());
+					this.delete(person);
+					break;
+				case 6:
+					System.out.println(this);
+					break;
+				default:
+					System.out.println("Inocrrect input. Please provide a number from 1-6 based on what you need!");
+					break;
+			}
+		} catch(IllegalArgumentException message) {
+				System.out.println(message);
+		}
+		// scanner.close();
+	}
+	/**
+	 * This method edits an Individual object of the address book.
+	 */
+	private void editPerson( ) {
 		Scanner read = new Scanner(System.in);
-		System.out.println("Editing the Address Book.\n");
+		System.out.println("Editing the Address Book.");
 		System.out.println("First name of the person: ");
 		String fName = read.nextLine();
-		System.out.println("\nLast name of the person: ");
+		System.out.println("Last name of the person: ");
 		String lName = read.nextLine();
+		System.out.println("Phone number of the person: ");
+		String phoneNum = read.nextLine();
 		Iterator<Individual> iter = getEntries().iterator();
 		while (iter.hasNext()) {
 			Individual x = iter.next();
 			if (x.getfName().equals(fName)) {
 				if (x.getlName().equals(lName)) {
-					System.out.println("Found the individual.\n");
-					editHelper(x);
+					if (x.getPhoneNum().equals(phoneNum)) {
+						System.out.println("Found the individual.\n");
+						editHelper(x);
+					}
 				}
 				else {
 					System.out.println(fName + " " + lName + " Individual does not exist in the address book.");
 				}
 			}
 		}
-		read.close();
+		// read.close();
 	}
 	
 	/**
@@ -73,28 +154,34 @@ public class AddressBook implements Serializable{
 	 * won't let the user edit first name and last name.
 	 * @param x This is the parameter of the method.
 	 */
-	public void editHelper(Individual x) {
+	private void editHelper(Individual x) {
 		Scanner read = new Scanner(System.in);
-		System.out.println("What do you want to edit? \n");
+		System.out.println("What do you want to edit?");
+		System.out.println("The avialable options are: ");
+		System.out.println("phone number\naddress");
 		String userInput = read.nextLine();
 		switch (userInput) {
 			case "first name":
-				System.out.println("You can't change first name.\n");
-				System.out.println("Try again.\n");
+				System.out.println("You can't change first name.");
+				System.out.println("Try again.");
 				editHelper(x);
 				break;
 			case "last name":
-				System.out.println("You can't change last name.\n");
-				System.out.println("Try again.\n");
+				System.out.println("You can't change last name.");
+				System.out.println("Try again.");
 				editHelper(x);
 				break;
 			case "phone number":
-				System.out.println("Can you pass the new phone number?\n");
+				System.out.println("Can you pass the new phone number?");
 				String phoneNum = read.nextLine();
 				x.setPhoneNum(phoneNum);
 				break;
 			case "address":
 				editAddress(x);
+				break;
+			default:
+				System.out.println("Invalid input. Please provide correct input.");
+				editHelper(x);
 				break;
 		}
 		read.close();
@@ -105,16 +192,13 @@ public class AddressBook implements Serializable{
 	 * prompts the user for correct input as long as he doesn't pass correct input
 	 * @param x This is the parameter of the method.
 	 */
-	public void editAddress(Individual x) {
+	private void editAddress(Individual x) {
 		Scanner read = new Scanner(System.in);
-		System.out.println("What part of address you want to change?\n");
+		System.out.println("What part of address you want to change?");
+		System.out.println("The available options are: ");
+		System.out.println("city\nstreet\nstate\nzip code");
 		String editAddrPart = read.nextLine();
 		switch (editAddrPart) {
-			case "street number":
-				System.out.println("Can you pass the new street number?\n");
-				int streetNum = read.nextInt();
-				x.getAddr().editStreetNum(streetNum);
-				break;
 			case "city":
 				System.out.println("Can you pass the new city name?\n");
 				String city = read.nextLine();
@@ -131,13 +215,12 @@ public class AddressBook implements Serializable{
 				x.getAddr().editState(state);
 				break;
 			case "zip code":
-				System.out.println("Can you pass the new street number?\n");
+				System.out.println("Can you pass the new zip code?\n");
 				int zipCode = read.nextInt();
 				x.getAddr().editZipCode(zipCode);
 				break;
 			default:
-				System.out.println("Your response didn't match to any of the cases.\n");
-				System.out.println("The valid responses are:\nstreet number\ncity\nstreet\nstate\nzip code\n");
+				System.out.println("Invalid response. Please provide a valide response.\n");
 				editAddress(x);
 				break;
 		}
@@ -153,9 +236,42 @@ public class AddressBook implements Serializable{
 	}
 	
 	/**
-	 * comparator class
+	 * This method sorts Individual objects based on their zip codes
+	 * calls Collections.sort(Indivual obj, Comparator<Individual> com) to sort the entires of the book
 	 */
-	transient Comparator<Individual> com = new Comparator<Individual>() {
+	public void sortCode() {
+		System.out.println("Entered sortCode()");
+		Collections.sort(this.entries, new SortByCode());
+	}
+	
+	/**
+	 * This method overrides toString() method and returns the address book information in mailing label format.
+	 */
+	@Override
+	public String toString() {
+		String mailLabel = "";
+		for (Individual x: getEntries()) {
+			mailLabel += x.getfName() + " " + x.getlName() + "\n" + x.getAddr().getStreet() +
+					"\n" + x.getAddr().getCity() + ", " + x.getAddr().getState() + ", " + x.getAddr().getZipCode() + "\n" +
+					x.getPhoneNum() + "\n\n";
+		}
+		return String.format(mailLabel);
+	}
+	/**
+	 * This is the get method of entries.
+	 * @return List<Individual> This is the returned list of individuals.
+	 */
+	public List<Individual> getEntries() {
+		return entries;
+	}
+	
+	/**
+	 * This is the class that implements comparator.
+	 * @author henchhing.limbu
+	 *
+	 */
+	class SortByCode implements Comparator<Individual> {
+		
 		/**
 		 * This method compares two Individual objects based on their zip code
 		 * if same zip code, objects are compared based on their last names
@@ -164,8 +280,9 @@ public class AddressBook implements Serializable{
 		 * @param person2 This is the second individual passed as parameter to the method.
 		 * @return int This is the returned int value by the method.
 		 */
-
+		@Override
 		public int compare(Individual person1, Individual person2) {
+			// TODO Auto-generated method stub
 			if (person1.getAddr().getZipCode() == person2.getAddr().getZipCode()) {
 				if (person1.getlName().toLowerCase().equals(person2.getlName().toLowerCase())) {
 					if (person1.getfName().toLowerCase().equals(person2.getfName().toLowerCase())) {
@@ -178,37 +295,13 @@ public class AddressBook implements Serializable{
 					return person1.getlName().toLowerCase().compareTo(person2.getlName().toLowerCase());
 			}
 			else {
-				if (person1.getAddr().getZipCode() < person2.getAddr().getZipCode()) return -1; 
-				else return 1;
+				System.out.println("Entered compare by zip code");
+				if (person1.getAddr().getZipCode() < person2.getAddr().getZipCode()) {
+					return -1; 
+				}
+					else return 1;
 			}
 		}
-	};
-	/**
-	 * This method sorts Individual objects based on their zip codes
-	 * calls Collections.sort(Indivual obj, Comparator<Individual> com) to sort the entires of the book
-	 */
-	public void sortCode() {
-		Collections.sort(getEntries(), com);
-	}
-	
-	/**
-	 * This method overrides toString() method and returns the address book information in mailing label format.
-	 */
-	@Override
-	public String toString() {
-		String mailLabel = null;
-		for (Individual x: getEntries()) {
-			mailLabel += x.getfName() + " " + x.getlName() + "\n" + x.getAddr().getStreetNum() + " " + x.getAddr().getStreet() +
-					"\n" + x.getAddr().getCity() + ", " + x.getAddr().getState() + ", " + x.getAddr().getZipCode() + "\n" +
-					x.getPhoneNum() + "\n\n";
-		}
-		return String.format(mailLabel);
-	}
-	/**
-	 * This is the get method of entries.
-	 * @return List<Individual> This is the returned list of individuals.
-	 */
-	public List<Individual> getEntries() {
-		return entries;
+		
 	}
 }

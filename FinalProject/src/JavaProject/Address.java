@@ -3,28 +3,10 @@ package JavaProject;
 import java.io.Serializable;
 
 public class Address implements Serializable{
-	private int streetNum;
 	private String city;
 	private String street;
 	private String state;
 	private int zipCode;
-	
-	/**
-	 * This method gets the street number.
-	 * @return int This is the returned street number.
-	 */
-	
-	public int getStreetNum() {
-		return streetNum;
-	}
-	
-	/**
-	 * This method sets the street number.
-	 * @param streetNum This is the passed street number.
-	 */
-	public void setStreetNum(int streetNum) {
-		this.streetNum = streetNum;
-	}
 	
 	/**
 	 * This method gets the city name.
@@ -91,13 +73,6 @@ public class Address implements Serializable{
 	}
 	
 	/**
-	 * This method is used to update the street number.
-	 * @param x This is the new street number. 
-	 */
-	public void editStreetNum(int x) {
-		streetNum = x;
-	}
-	/**
 	 * This method is used to update the street name.
 	 * @param x This is the new street name.
 	 */
@@ -131,7 +106,6 @@ public class Address implements Serializable{
 	 */
 	public Address()
 	{
-		streetNum = 0;
 		city = "";
 		street = "";
 		state = "";
@@ -159,7 +133,6 @@ public class Address implements Serializable{
 	 * @return boolean This returns true if the addresses are same, else false.
 	 */
 	public boolean equals(Address addr) {
-		if (this.streetNum == addr.streetNum) {
 			if (this.city.equals(addr.city)) {
 				if (this.street.equals(addr.street)) {
 					if (this.state.equals(addr.state)) {
@@ -169,7 +142,6 @@ public class Address implements Serializable{
 					}
 				}
 			}
-		}
-		return false;
+			return false;
 	}
 }
