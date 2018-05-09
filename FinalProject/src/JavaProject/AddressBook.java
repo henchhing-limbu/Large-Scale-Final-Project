@@ -4,9 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This class has a List that holds the Individual objects.
+ * This class has methods insert(), delete(Individual), edit(), sortName(), sortCode().
+ * @author henchhing.limbu
+ *
+ */
 public class AddressBook implements Serializable{
 	private List<Individual> entries = new ArrayList<Individual>();
 	/**
@@ -123,12 +130,12 @@ public class AddressBook implements Serializable{
 	 */
 	private void editPerson( ) {
 		Scanner read = new Scanner(System.in);
-		System.out.println("Editing the Address Book.");
-		System.out.println("First name of the person: ");
+		System.out.println("Information about the person you want to edit");
+		System.out.println("First name: ");
 		String fName = read.nextLine();
-		System.out.println("Last name of the person: ");
+		System.out.println("Last name: ");
 		String lName = read.nextLine();
-		System.out.println("Phone number of the person: ");
+		System.out.println("Phone number: ");
 		String phoneNum = read.nextLine();
 		Iterator<Individual> iter = getEntries().iterator();
 		while (iter.hasNext()) {
@@ -157,32 +164,28 @@ public class AddressBook implements Serializable{
 	private void editHelper(Individual x) {
 		Scanner read = new Scanner(System.in);
 		System.out.println("What do you want to edit?");
-		System.out.println("The avialable options are: ");
-		System.out.println("phone number\naddress");
-		String userInput = read.nextLine();
-		switch (userInput) {
-			case "first name":
-				System.out.println("You can't change first name.");
-				System.out.println("Try again.");
-				editHelper(x);
-				break;
-			case "last name":
-				System.out.println("You can't change last name.");
-				System.out.println("Try again.");
-				editHelper(x);
-				break;
-			case "phone number":
-				System.out.println("Can you pass the new phone number?");
-				String phoneNum = read.nextLine();
-				x.setPhoneNum(phoneNum);
-				break;
-			case "address":
-				editAddress(x);
-				break;
-			default:
-				System.out.println("Invalid input. Please provide correct input.");
-				editHelper(x);
-				break;
+		System.out.println("1 ~ PHONE NUMBER");
+		System.out.println("2 ~ ADDRESS");
+		int userInput = read.nextInt();
+		read.nextLine();
+		try {
+			switch (userInput) {
+				case 1:
+					System.out.println("Can you pass the new phone number?");
+					String phoneNum = read.nextLine();
+					x.setPhoneNum(phoneNum);
+					break;
+				case 2:
+					editAddress(x);
+					break;
+				default:
+					System.out.println("Invalid input. Please provide correct input.");
+					editHelper(x);
+					break;
+			}
+		}catch (InputMismatchException e) {
+			System.out.println(e);
+			
 		}
 		read.close();
 	}
@@ -195,34 +198,44 @@ public class AddressBook implements Serializable{
 	private void editAddress(Individual x) {
 		Scanner read = new Scanner(System.in);
 		System.out.println("What part of address you want to change?");
-		System.out.println("The available options are: ");
-		System.out.println("city\nstreet\nstate\nzip code");
-		String editAddrPart = read.nextLine();
-		switch (editAddrPart) {
-			case "city":
-				System.out.println("Can you pass the new city name?\n");
-				String city = read.nextLine();
-				x.getAddr().editCity(city);
-				break;
-			case "street":
-				System.out.println("Can you pass the new street name?\n");
-				String street = read.nextLine();
-				x.getAddr().editStreet(street);
-				break;
-			case "state":
-				System.out.println("Can you pass the new state name?\n");
-				String state = read.nextLine();
-				x.getAddr().editState(state);
-				break;
-			case "zip code":
-				System.out.println("Can you pass the new zip code?\n");
-				int zipCode = read.nextInt();
-				x.getAddr().editZipCode(zipCode);
-				break;
-			default:
-				System.out.println("Invalid response. Please provide a valide response.\n");
-				editAddress(x);
-				break;
+		System.out.println("1 ~ CITY");
+		System.out.println("2 ~ STREET");
+		System.out.println("3 ~ STATE");
+		System.out.println("4 ~ ZIP CODE");
+		try {
+			int editAddrPart = read.nextInt();
+			read.nextLine();
+			switch (editAddrPart) {
+				case 1:
+					System.out.println("Can you pass the new city name?");
+					// String city = read.nextLine();
+					// read.nextLine();
+					// System.out.println(x.getAddr().getCity());
+					x.getAddr().editCity(read.nextLine());
+					break;
+				case 2:
+					System.out.println("Can you pass the new street name?\n");
+					String street = read.nextLine();
+					x.getAddr().editStreet(street);
+					break;
+				case 3:
+					System.out.println("Can you pass the new state name?\n");
+					String state = read.nextLine();
+					x.getAddr().editState(state);
+					break;
+				case 4:
+					System.out.println("Can you pass the new zip code?\n");
+					int zipCode = read.nextInt();
+					read.nextLine();
+					x.getAddr().editZipCode(zipCode);
+					break;
+				default:
+					System.out.println("Invalid response. Please provide a valide response.\n");
+					editAddress(x);
+					break;
+			}
+		}catch(InputMismatchException e) {
+			System.out.println(e);
 		}
 		read.close();
 	}

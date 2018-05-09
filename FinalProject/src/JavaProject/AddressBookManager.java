@@ -1,5 +1,6 @@
 package JavaProject;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +10,12 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * This class has an AddressBook attribute.
+ * This class has methods like menuOption(), create(), save(), saveAs(), open(String), edit(), close(), quit(). 
+ * @author henchhing.limbu
+ *
+ */
 public class AddressBookManager {
 	private AddressBook addrBook;
 	private String bookName;
@@ -75,13 +82,13 @@ public class AddressBookManager {
 						System.out.println("Invalid input. Please provide a valid input.");
 						break;
 				}
-			}catch(IllegalArgumentException a) {
+			}catch(InputMismatchException a) {
 				System.out.println(a);
 			}
 		}
 	}
 	/**
-	 * Creates a new address book
+	 * This method creates a new address book
 	 * Prompts the user for address bookName
 	 * This bookName is used as default file name to save
 	 */
@@ -99,7 +106,7 @@ public class AddressBookManager {
 	}
 	
 	/**
-	 * saves the state of the address book object in a file
+	 * This method saves the state of the address book object in a file
 	 * will use default bookName as the save file
 	 */
 	public void save() {

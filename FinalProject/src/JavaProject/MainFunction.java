@@ -10,6 +10,7 @@ public class MainFunction {
 		addr.setStreet("1923 North Capitol St NW");
 		addr.setState("DC");
 		addr.setZipCode(20059);
+		addr.editCity("Kathmandu");
 		// System.out.println(addr);
 		
 		// check for Individual

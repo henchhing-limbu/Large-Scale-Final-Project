@@ -1,7 +1,10 @@
 package JavaProject;
 
 import java.io.Serializable;
-
+/**
+ * This class consists of attributes that represents Individual.
+ * This class has methods editPhoneNum(), editAddress(), compareTo(Individual) and equals(Individual).
+ */
 public class Individual implements Comparable<Individual>, Serializable {
 	private String fName;
 	private String lName;

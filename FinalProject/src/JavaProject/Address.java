@@ -1,7 +1,10 @@
 package JavaProject;
 
 import java.io.Serializable;
-
+/**
+ * This class contains address attributes.
+ * This class has methods editCity(), editStreet(), editZipCode(), editState()
+ */
 public class Address implements Serializable{
 	private String city;
 	private String street;
