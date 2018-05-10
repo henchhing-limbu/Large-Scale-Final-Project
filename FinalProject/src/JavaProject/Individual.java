@@ -86,7 +86,7 @@ public class Individual implements Comparable<Individual>, Serializable {
 	 * This method updates the address.
 	 * @param address This is the new address.
 	 */
-	void editAddr(Address address) {
+	public void editAddr(Address address) {
 		this.copyValue(address);
 	}
 	
@@ -132,7 +132,6 @@ public class Individual implements Comparable<Individual>, Serializable {
 	 */
 	@Override
 	public int compareTo(Individual person) {
-		System.out.println("Entered compareTo");
 		if ((this.lName.toLowerCase()).equals(person.lName.toLowerCase())) {
 			return ((this.fName.toLowerCase()).compareTo(person.fName.toLowerCase()));
 		}
@@ -147,10 +146,14 @@ public class Individual implements Comparable<Individual>, Serializable {
 	 * @return boolean This is the returned boolean value.
 	 */
 	public boolean equals(Individual obj) {
-		// TODO Auto-generated method stub
-		if ((this.fName.toLowerCase().equals(obj.fName.toLowerCase())) 
-			&& (this.lName.toLowerCase().equals(obj.lName.toLowerCase()))
-			&& (this.phoneNum.equals(obj.phoneNum)))
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Individual))
+			return false;
+		Individual o = (Individual) obj;
+		if ((this.fName.toLowerCase().equals(o.getfName().toLowerCase())) 
+			&& (this.lName.toLowerCase().equals(o.getlName().toLowerCase()))
+			&& (this.phoneNum.equals(o.getPhoneNum())))
 				return true;
 		return false;
 	}

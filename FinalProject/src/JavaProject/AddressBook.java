@@ -39,43 +39,24 @@ public class AddressBook implements Serializable{
 		System.out.println("Zip Code: ");
 		person.getAddr().setZipCode(scanner.nextInt());
 		this.getEntries().add(person);
-		// scanner.close();
 	}
 	/**
 	 * This method deletes an individual from the address book
 	 * does nothing if the individual doesn't exist in the book
 	 * @param person This is the parameter to the method.
 	 */
-	// TODO: Fix me
-	public void delete(Individual person) {
+	public boolean delete(Individual person) {
 		for (Individual x : this.entries) {
-		// Iterator<Individual> iter = getEntries().iterator();
-		// while (iter.hasNext()) {
-			// Individual x = iter.next();
-			// System.out.println(x.getfName());
-			// System.out.println(person.getfName());
-			/*
-			if (x.getfName().equals(person.getfName())) {
-				System.out.println("First name similar.");
-				if (x.getlName().equals(person.getlName())) {
-					if (x.getPhoneNum().equals(person.getPhoneNum())) {
-						System.out.println("Found the individual.");
-						// iter.remove();
-						return;
-					}
-				}
-			*/
 			if (x.equals(person)) {
 				entries.remove(x);
-				System.out.println("Entry deleted");
-				return;
+				return true;
 			}
 		}
-		System.out.println("This individual does not exist in the address book.");
+		return false;
 	}
 	
 	/**
-	 * This method edits the address book
+	 * This method edits the address book.
 	 */
 	public void edit() {
 		Scanner scanner = new Scanner(System.in);
@@ -87,6 +68,7 @@ public class AddressBook implements Serializable{
 		System.out.println("5 ~ DELETE AN INDIVIDUAL ENTRY");
 		System.out.println("6 ~ DISPLAY ENTRIES");
 		int userInput = scanner.nextInt();
+		scanner.nextLine();
 		try {
 			switch (userInput) {
 				case 1:
@@ -94,9 +76,11 @@ public class AddressBook implements Serializable{
 					break;
 				case 2:
 					this.sortName();
+					System.out.println("Sorted by name.");
 					break;
 				case 3:
 					this.sortCode();
+					System.out.println("Sorted by zip code.");
 					break;
 				case 4:
 					this.editPerson();
@@ -106,12 +90,14 @@ public class AddressBook implements Serializable{
 					Individual person = new Individual();
 					System.out.println("First name: ");
 					person.setfName(scanner.nextLine());
-					scanner.nextLine();
 					System.out.println("Last name: ");
 					person.setlName(scanner.nextLine());
 					System.out.println("Phone number: ");
 					person.setPhoneNum(scanner.nextLine());
-					this.delete(person);
+					if (this.delete(person))
+						System.out.println("Entry deleted.");
+					else
+						System.out.println("Entry not found.");
 					break;
 				case 6:
 					System.out.println(this);
@@ -123,7 +109,6 @@ public class AddressBook implements Serializable{
 		} catch(IllegalArgumentException message) {
 				System.out.println(message);
 		}
-		// scanner.close();
 	}
 	/**
 	 * This method edits an Individual object of the address book.
@@ -152,7 +137,6 @@ public class AddressBook implements Serializable{
 				}
 			}
 		}
-		// read.close();
 	}
 	
 	/**
@@ -187,7 +171,6 @@ public class AddressBook implements Serializable{
 			System.out.println(e);
 			
 		}
-		read.close();
 	}
 	
 	/**
@@ -207,24 +190,24 @@ public class AddressBook implements Serializable{
 			read.nextLine();
 			switch (editAddrPart) {
 				case 1:
-					System.out.println("Can you pass the new city name?");
+					System.out.println("Please pass in the new City name:");
 					// String city = read.nextLine();
 					// read.nextLine();
 					// System.out.println(x.getAddr().getCity());
 					x.getAddr().editCity(read.nextLine());
 					break;
 				case 2:
-					System.out.println("Can you pass the new street name?\n");
+					System.out.println("Please pass in the new street name?\n");
 					String street = read.nextLine();
 					x.getAddr().editStreet(street);
 					break;
 				case 3:
-					System.out.println("Can you pass the new state name?\n");
+					System.out.println("Please pass in the new state name?\n");
 					String state = read.nextLine();
 					x.getAddr().editState(state);
 					break;
 				case 4:
-					System.out.println("Can you pass the new zip code?\n");
+					System.out.println("Please pass in the new zip code?\n");
 					int zipCode = read.nextInt();
 					read.nextLine();
 					x.getAddr().editZipCode(zipCode);
@@ -237,7 +220,6 @@ public class AddressBook implements Serializable{
 		}catch(InputMismatchException e) {
 			System.out.println(e);
 		}
-		read.close();
 	}
 	/**
 	 *  This method sorts the entries in the book by last name of the individual
@@ -253,7 +235,6 @@ public class AddressBook implements Serializable{
 	 * calls Collections.sort(Indivual obj, Comparator<Individual> com) to sort the entires of the book
 	 */
 	public void sortCode() {
-		System.out.println("Entered sortCode()");
 		Collections.sort(this.entries, new SortByCode());
 	}
 	
@@ -308,7 +289,6 @@ public class AddressBook implements Serializable{
 					return person1.getlName().toLowerCase().compareTo(person2.getlName().toLowerCase());
 			}
 			else {
-				System.out.println("Entered compare by zip code");
 				if (person1.getAddr().getZipCode() < person2.getAddr().getZipCode()) {
 					return -1; 
 				}

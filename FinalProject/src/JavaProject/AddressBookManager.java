@@ -59,7 +59,7 @@ public class AddressBookManager {
 						this.create();
 						break;
 					case 2:
-						System.out.println("Name of the file you want to open.\n");
+						System.out.println("Name of the file you want to open.");
 						String filename = read.nextLine();
 						this.open(filename);
 						break;
@@ -113,7 +113,7 @@ public class AddressBookManager {
 		Scanner scanner = new Scanner(System.in);
 		try {
 			if (bookName == null) {
-				System.out.println("Address book default name: ");
+				System.out.println("Save as: ");
 				bookName = scanner.nextLine();
 			}
 			System.out.println("Saving the address book.");
@@ -131,7 +131,7 @@ public class AddressBookManager {
 	 */
 	public void saveAs() {
 		Scanner read = new Scanner(System.in);
-		System.out.println("Name of the file you want to save as: ");
+		System.out.println("Save as: ");
 		bookName = read.nextLine();
 		try {
 			System.out.println("Saving the address book as " + bookName);
@@ -141,7 +141,6 @@ public class AddressBookManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// read.close();
 	}
 	
 	/**
@@ -208,7 +207,7 @@ public class AddressBookManager {
 	public void quit() {
 		if (this.getAddrBook() != null) 
 			close();
-		System.out.println("Terminating the prgram.\n");
+		System.out.println("Terminating the program.\n");
 		System.exit(0);		
 	}
 	
