@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import JavaProject.Address;
 
+import java.util.InputMismatchException;
+
 import org.junit.Assert;
 
 public class AddressTest {

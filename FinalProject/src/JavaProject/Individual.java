@@ -78,27 +78,43 @@ public class Individual implements Comparable<Individual>, Serializable {
 	 * This method updates the phone number of the person.
 	 * @param num This is the parameter to the method.
 	 */
-	void editPhoneNum(String num) {
-		phoneNum = num;
+	public void editPhoneNum(Object obj) throws ClassCastException{
+		String num = (String) obj;
+		try {
+			this.setPhoneNum(num);
+		}
+		catch (Exception e) {
+			throw e;
+		}
 	}
 
 	/**
 	 * This method updates the address.
 	 * @param address This is the new address.
 	 */
-	public void editAddr(Address address) {
-		this.copyValue(address);
+	public void editAddr(Object obj) throws ClassCastException{
+		Address address = (Address) obj;
+		try {
+			this.copyValue(address);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	/**
 	 * This method copies values by value, not by reference
 	 * @param address This is the parameter to the method.
 	 */
-	public void copyValue(Address address) {
-		addr.setCity(address.getCity());
-		addr.setState(address.getState());
-		addr.setStreet(address.getStreet());
-		addr.setZipCode(address.getZipCode());
+	private void copyValue(Object obj) throws ClassCastException {
+		Address address = (Address) obj;
+		try {
+			addr.setCity(address.getCity());
+			addr.setState(address.getState());
+			addr.setStreet(address.getStreet());
+			addr.setZipCode(address.getZipCode());
+		} catch (Exception a) {
+			throw a;
+		}
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package JavaProject;
 
 import java.io.Serializable;
+import java.util.InputMismatchException;
 /**
  * This class contains address attributes.
  * This class has methods editCity(), editStreet(), editZipCode(), editState()
@@ -135,7 +136,11 @@ public class Address implements Serializable{
 	 * Address object.
 	 * @return boolean This returns true if the addresses are same, else false.
 	 */
-	public boolean equals(Address addr) {
+	@Override
+	public boolean equals(Object other) throws ClassCastException{
+		Address addr = (Address) other;
+		try {
+			System.out.println("Same instances");
 			if (this.city.equals(addr.city)) {
 				if (this.street.equals(addr.street)) {
 					if (this.state.equals(addr.state)) {
@@ -145,6 +150,9 @@ public class Address implements Serializable{
 					}
 				}
 			}
-			return false;
+		} catch (Exception e) {
+			throw e;
+		}
+		return false;
 	}
 }

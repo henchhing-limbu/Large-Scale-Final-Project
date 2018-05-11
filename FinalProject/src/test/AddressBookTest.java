@@ -6,7 +6,7 @@ import JavaProject.AddressBook;
 import JavaProject.Individual;
 import junit.framework.Assert;
 
-class AddressBookTest {
+public class AddressBookTest {
 	@Test
 	public void canAddIndividual() {
 		
@@ -81,5 +81,22 @@ class AddressBookTest {
 		Assert.assertEquals(person4, addrBook.getEntries().get(1));
 		Assert.assertEquals(person1, addrBook.getEntries().get(2));
 		Assert.assertEquals(person3, addrBook.getEntries().get(3));
+	}
+	
+	String in = "Henchhing" + System.getProperty("line.separator") + "Limbu" + System.getProperty("line.separator")
+				+ "202-849-1017" + System.getProperty("line.separator") + "2205 4th St NW" +
+				System.getProperty("line.separator") + 20059 + System.getProperty("line.separator") +
+				"Washington" + System.getProperty("line.separator") + "DC" + System.getProperty("line.separator");
+	@Test
+	public void canInsertPerson() {
+		AddressBook addrBook = new AddressBook();
+		addrBook.insert(in);
+		Assert.assertEquals("Henchhing", addrBook.getEntries().get(0).getfName());
+		Assert.assertEquals("Limbu", addrBook.getEntries().get(0).getlName());
+		Assert.assertEquals("202-849-1017", addrBook.getEntries().get(0).getPhoneNum());
+		Assert.assertEquals("2205 4th St NW", addrBook.getEntries().get(0).getAddr().getStreet());
+		Assert.assertEquals(20059, addrBook.getEntries().get(0).getAddr().getZipCode());
+		Assert.assertEquals("Washington", addrBook.getEntries().get(0).getAddr().getCity());
+		Assert.assertEquals("DC", addrBook.getEntries().get(0).getAddr().getState());
 	}
 }

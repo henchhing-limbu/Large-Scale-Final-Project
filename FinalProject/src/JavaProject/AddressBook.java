@@ -1,5 +1,6 @@
 package JavaProject;
 import java.util.Scanner;
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,38 +22,60 @@ public class AddressBook implements Serializable{
 	 *  If individual already exists in the book, won't add object to the book
 	 *  @param person This is the parameter to the method.
 	 */
-	public void insert() {
-		Scanner scanner = new Scanner(System.in);
-		Individual person = new Individual();
-		System.out.println("First name of the person: ");
-		person.setfName(scanner.nextLine());
-		System.out.println("Last name of the person: ");
-		person.setlName(scanner.nextLine());
-		System.out.println("Phone number of the person: ");
-		person.setPhoneNum(scanner.nextLine());
-		System.out.println("City name: ");
-		person.getAddr().setCity(scanner.nextLine());
-		System.out.println("State name: ");
-		person.getAddr().setState(scanner.nextLine());
-		System.out.println("Street name: ");
-		person.getAddr().setStreet(scanner.nextLine());
-		System.out.println("Zip Code: ");
-		person.getAddr().setZipCode(scanner.nextInt());
-		this.getEntries().add(person);
+	public void insert(Object obj) throws ClassCastException{
+		String in = (String) obj;
+		try {
+			Scanner scanner = null;
+			if (in.equals("")) {
+				scanner = new Scanner(System.in);
+			}
+			else {
+				ByteArrayInputStream x = new ByteArrayInputStream(in.getBytes());
+				System.setIn(x);
+				scanner = new Scanner(x);
+			}
+			Individual person = new Individual();
+			System.out.println("First name of the person: ");
+			person.setfName(scanner.nextLine());
+			System.out.println("Last name of the person: ");
+			person.setlName(scanner.nextLine());
+			System.out.println("Phone number of the person: ");
+			person.setPhoneNum(scanner.nextLine());;
+			System.out.println("Street name: ");
+			person.getAddr().setStreet(scanner.nextLine());
+			System.out.println("Zip Code: ");
+			person.getAddr().setZipCode(scanner.nextInt());
+			scanner.nextLine();
+			System.out.println("City name: ");
+			person.getAddr().setCity(scanner.nextLine());
+			System.out.println("State name: ");
+			person.getAddr().setState(scanner.nextLine());
+			this.getEntries().add(person);
+		}
+		catch (Exception a) {
+			System.out.println(a);
+			throw a;
+		}
 	}
 	/**
 	 * This method deletes an individual from the address book
 	 * does nothing if the individual doesn't exist in the book
 	 * @param person This is the parameter to the method.
 	 */
-	public boolean delete(Individual person) {
-		for (Individual x : this.entries) {
-			if (x.equals(person)) {
-				entries.remove(x);
-				return true;
+	public boolean delete(Object obj) throws ClassCastException{
+		Individual person = (Individual) obj;
+		try {
+			for (Individual x : this.entries) {
+				if (x.equals(person)) {
+					entries.remove(x);
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
+		catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	/**
@@ -72,7 +95,7 @@ public class AddressBook implements Serializable{
 		try {
 			switch (userInput) {
 				case 1:
-					this.insert();
+					this.insert("");
 					break;
 				case 2:
 					this.sortName();
@@ -145,31 +168,36 @@ public class AddressBook implements Serializable{
 	 * won't let the user edit first name and last name.
 	 * @param x This is the parameter of the method.
 	 */
-	private void editHelper(Individual x) {
-		Scanner read = new Scanner(System.in);
-		System.out.println("What do you want to edit?");
-		System.out.println("1 ~ PHONE NUMBER");
-		System.out.println("2 ~ ADDRESS");
-		int userInput = read.nextInt();
-		read.nextLine();
+	private void editHelper(Object obj) throws ClassCastException{
+		Individual x = (Individual) obj;
 		try {
-			switch (userInput) {
-				case 1:
-					System.out.println("Can you pass the new phone number?");
-					String phoneNum = read.nextLine();
-					x.setPhoneNum(phoneNum);
-					break;
-				case 2:
-					editAddress(x);
-					break;
-				default:
-					System.out.println("Invalid input. Please provide correct input.");
-					editHelper(x);
-					break;
+			Scanner read = new Scanner(System.in);
+			System.out.println("What do you want to edit?");
+			System.out.println("1 ~ PHONE NUMBER");
+			System.out.println("2 ~ ADDRESS");
+			int userInput = read.nextInt();
+			read.nextLine();
+			try {
+				switch (userInput) {
+					case 1:
+						System.out.println("Can you pass the new phone number?");
+						String phoneNum = read.nextLine();
+						x.setPhoneNum(phoneNum);
+						break;
+					case 2:
+						editAddress(x);
+						break;
+					default:
+						System.out.println("Invalid input. Please provide correct input.");
+						editHelper(x);
+						break;
+				}
+			}catch (InputMismatchException e) {
+				System.out.println(e);
+				
 			}
-		}catch (InputMismatchException e) {
-			System.out.println(e);
-			
+		} catch(Exception e) {
+			throw e;
 		}
 	}
 	
@@ -178,47 +206,52 @@ public class AddressBook implements Serializable{
 	 * prompts the user for correct input as long as he doesn't pass correct input
 	 * @param x This is the parameter of the method.
 	 */
-	private void editAddress(Individual x) {
-		Scanner read = new Scanner(System.in);
-		System.out.println("What part of address you want to change?");
-		System.out.println("1 ~ CITY");
-		System.out.println("2 ~ STREET");
-		System.out.println("3 ~ STATE");
-		System.out.println("4 ~ ZIP CODE");
+	private void editAddress(Object obj) throws ClassCastException {
+		Individual x = (Individual) obj;
 		try {
-			int editAddrPart = read.nextInt();
-			read.nextLine();
-			switch (editAddrPart) {
-				case 1:
-					System.out.println("Please pass in the new City name:");
-					// String city = read.nextLine();
-					// read.nextLine();
-					// System.out.println(x.getAddr().getCity());
-					x.getAddr().editCity(read.nextLine());
-					break;
-				case 2:
-					System.out.println("Please pass in the new street name?\n");
-					String street = read.nextLine();
-					x.getAddr().editStreet(street);
-					break;
-				case 3:
-					System.out.println("Please pass in the new state name?\n");
-					String state = read.nextLine();
-					x.getAddr().editState(state);
-					break;
-				case 4:
-					System.out.println("Please pass in the new zip code?\n");
-					int zipCode = read.nextInt();
-					read.nextLine();
-					x.getAddr().editZipCode(zipCode);
-					break;
-				default:
-					System.out.println("Invalid response. Please provide a valide response.\n");
-					editAddress(x);
-					break;
+			Scanner read = new Scanner(System.in);
+			System.out.println("What part of address you want to change?");
+			System.out.println("1 ~ CITY");
+			System.out.println("2 ~ STREET");
+			System.out.println("3 ~ STATE");
+			System.out.println("4 ~ ZIP CODE");
+			try {
+				int editAddrPart = read.nextInt();
+				read.nextLine();
+				switch (editAddrPart) {
+					case 1:
+						System.out.println("Please pass in the new City name:");
+						// String city = read.nextLine();
+						// read.nextLine();
+						// System.out.println(x.getAddr().getCity());
+						x.getAddr().editCity(read.nextLine());
+						break;
+					case 2:
+						System.out.println("Please pass in the new street name?\n");
+						String street = read.nextLine();
+						x.getAddr().editStreet(street);
+						break;
+					case 3:
+						System.out.println("Please pass in the new state name?\n");
+						String state = read.nextLine();
+						x.getAddr().editState(state);
+						break;
+					case 4:
+						System.out.println("Please pass in the new zip code?\n");
+						int zipCode = read.nextInt();
+						read.nextLine();
+						x.getAddr().editZipCode(zipCode);
+						break;
+					default:
+						System.out.println("Invalid response. Please provide a valide response.\n");
+						editAddress(x);
+						break;
+				}
+			}catch(InputMismatchException e) {
+				System.out.println(e);
 			}
-		}catch(InputMismatchException e) {
-			System.out.println(e);
+		} catch(Exception e) {
+			throw e;
 		}
 	}
 	/**
